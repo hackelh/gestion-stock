@@ -1,120 +1,61 @@
 package com.example.model;
 
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import java.util.List;
 
 public class PieceDAO {
-    public List<Piece> getAllPieces() {
-        List<Piece> pieces = new ArrayList<>();
-        String sql = "SELECT * FROM pieces";
-        try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Piece p = new Piece();
-                p.setId(rs.getInt("id"));
-                p.setNom(rs.getString("nom"));
-                p.setDescription(rs.getString("description"));
-                p.setQuantite(rs.getInt("quantite"));
-                p.setPrixUnitaire(rs.getDouble("prix_unitaire"));
-                p.setSeuilMin(rs.getInt("seuil_min"));
-                Date date = rs.getDate("date_derniere_vente");
-                if (date != null) {
-                    p.setDateDerniereVente(date.toLocalDate());
-                }
-                p.setCompatibleAvec(rs.getString("compatible_avec"));
-                pieces.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return pieces;
-    }
 
-    public boolean addPiece(Piece piece) {
-        String sql = "INSERT INTO pieces (nom, description, quantite, prix_unitaire, seuil_min, date_derniere_vente, compatible_avec) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, piece.getNom());
-            pstmt.setString(2, piece.getDescription());
-            pstmt.setInt(3, piece.getQuantite());
-            pstmt.setDouble(4, piece.getPrixUnitaire());
-            pstmt.setInt(5, piece.getSeuilMin());
-            if (piece.getDateDerniereVente() != null) {
-                pstmt.setDate(6, java.sql.Date.valueOf(piece.getDateDerniereVente()));
-            } else {
-                pstmt.setDate(6, null);
-            }
-            pstmt.setString(7, piece.getCompatibleAvec());
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean updatePiece(Piece piece) {
-        String sql = "UPDATE pieces SET nom=?, description=?, quantite=?, prix_unitaire=?, seuil_min=?, date_derniere_vente=?, compatible_avec=? WHERE id=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, piece.getNom());
-            pstmt.setString(2, piece.getDescription());
-            pstmt.setInt(3, piece.getQuantite());
-            pstmt.setDouble(4, piece.getPrixUnitaire());
-            pstmt.setInt(5, piece.getSeuilMin());
-            if (piece.getDateDerniereVente() != null) {
-                pstmt.setDate(6, java.sql.Date.valueOf(piece.getDateDerniereVente()));
-            } else {
-                pstmt.setDate(6, null);
-            }
-            pstmt.setString(7, piece.getCompatibleAvec());
-            pstmt.setInt(8, piece.getId());
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean deletePiece(int id) {
-        String sql = "DELETE FROM pieces WHERE id=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void addPiece(Piece piece) {
+        executeInsideTransaction(em -> em.persist(piece));
     }
 
     public Piece getPieceById(int id) {
-        String sql = "SELECT * FROM pieces WHERE id=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    Piece p = new Piece();
-                    p.setId(rs.getInt("id"));
-                    p.setNom(rs.getString("nom"));
-                    p.setDescription(rs.getString("description"));
-                    p.setQuantite(rs.getInt("quantite"));
-                    p.setPrixUnitaire(rs.getDouble("prix_unitaire"));
-                    p.setSeuilMin(rs.getInt("seuil_min"));
-                    java.sql.Date date = rs.getDate("date_derniere_vente");
-                    if (date != null) {
-                        p.setDateDerniereVente(date.toLocalDate());
-                    }
-                    p.setCompatibleAvec(rs.getString("compatible_avec"));
-                    return p;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.find(Piece.class, id);
+        } finally {
+            em.close();
         }
-        return null;
     }
-} 
+
+    public List<Piece> getAllPieces() {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("FROM Piece", Piece.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void updatePiece(Piece piece) {
+        executeInsideTransaction(em -> em.merge(piece));
+    }
+
+    public void deletePiece(int id) {
+        executeInsideTransaction(em -> {
+            Piece piece = em.find(Piece.class, id);
+            if (piece != null) {
+                em.remove(piece);
+            }
+        });
+    }
+
+    private void executeInsideTransaction(java.util.function.Consumer<EntityManager> action) {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            action.accept(em);
+            tx.commit();
+        } catch (RuntimeException e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+}
+ 

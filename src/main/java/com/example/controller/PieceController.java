@@ -10,16 +10,16 @@ public class PieceController {
         return pieceDAO.getAllPieces();
     }
 
-    public boolean addPiece(Piece piece) {
-        return pieceDAO.addPiece(piece);
+    public void addPiece(Piece piece) {
+        pieceDAO.addPiece(piece);
     }
 
-    public boolean updatePiece(Piece piece) {
-        return pieceDAO.updatePiece(piece);
+    public void updatePiece(Piece piece) {
+        pieceDAO.updatePiece(piece);
     }
 
-    public boolean deletePiece(int id) {
-        return pieceDAO.deletePiece(id);
+    public void deletePiece(int id) {
+        pieceDAO.deletePiece(id);
     }
 
     public Piece getPieceById(int id) {

@@ -1,15 +1,27 @@
 package com.example.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "pieces")
 public class Piece {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "nom", nullable = false)
     private String nom;
+    @Column(name = "description")
     private String description;
+    @Column(name = "quantite", nullable = false)
     private int quantite;
+    @Column(name = "prix_unitaire", nullable = false)
     private double prixUnitaire;
+    @Column(name = "seuil_min", nullable = false)
     private int seuilMin;
+    @Column(name = "date_derniere_vente")
     private LocalDate dateDerniereVente;
+    @Column(name = "compatible_avec")
     private String compatibleAvec;
 
     public Piece() {}
