@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="10.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.DashboardController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label text="Tableau de Bord Intelligent">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+        </Label>
+        <TextField fx:id="searchField" promptText="Rechercher par nom, catégorie, référence..." style="-fx-font-size: 14px;" />
+        <TableView fx:id="pieceTableView" prefHeight="600.0" prefWidth="1000.0">
+            <columns>
+                <TableColumn fx:id="nomColumn" prefWidth="200.0" text="Nom de la pièce" />
+                <TableColumn fx:id="categorieColumn" prefWidth="120.0" text="Catégorie" />
+                <TableColumn fx:id="referenceColumn" prefWidth="120.0" text="Référence" />
+                <TableColumn fx:id="quantiteColumn" prefWidth="75.0" text="Quantité" />
+                <TableColumn fx:id="seuilCritiqueColumn" prefWidth="75.0" text="Seuil" />
+                <TableColumn fx:id="statutColumn" prefWidth="120.0" text="Statut" />
+                <TableColumn fx:id="suggestionColumn" prefWidth="150.0" text="Suggestion Commande" />
+                <TableColumn fx:id="derniereActiviteColumn" prefWidth="150.0" text="Dernière Activité" />
+            </columns>
+        </TableView>
+        <HBox alignment="CENTER" spacing="15.0">
+            <children>
+                <Button onAction="#handleAjouterPiece" prefHeight="40.0" prefWidth="180.0" text="Ajouter une pièce" />
+                <Button fx:id="modifierButton" onAction="#handleModifierPiece" prefHeight="40.0" prefWidth="180.0" text="Modifier la pièce" />
+                <Button fx:id="supprimerButton" onAction="#handleSupprimerPiece" prefHeight="40.0" prefWidth="180.0" text="Supprimer la pièce" style="-fx-background-color: #E57373; -fx-text-fill: white;" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

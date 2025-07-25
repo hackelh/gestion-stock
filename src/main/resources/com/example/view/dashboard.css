@@ -1,0 +1,16 @@
+.low-stock-row {
+    -fx-background-color: #FFEBEE; /* Rouge très clair */
+}
+
+.low-stock-row:selected {
+    -fx-background-color: #E57373; /* Rouge un peu plus foncé pour la sélection */
+}
+
+.obsolete-row {
+    -fx-background-color: #F5F5F5; /* Gris clair */
+    -fx-text-fill: #9E9E9E; /* Texte gris */
+}
+
+.obsolete-row:selected {
+    -fx-background-color: #BDBDBD; /* Gris plus foncé pour la sélection */
+}

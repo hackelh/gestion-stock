@@ -1,57 +1,96 @@
 package com.example.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+
+/**
+ * Représente une pièce de rechange automobile.
+ * Cette classe est une entité JPA, mappée à la table "pieces_auto" dans la base de données.
+ * Elle contient toutes les informations relatives à une pièce, ainsi que la logique de persistance.
+ */
 @Entity
-@Table(name = "pieces")
+@Table(name = "pieces_auto") // Nouveau nom de table
 public class Piece {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "nom", nullable = false)
+
+    @Column(nullable = false)
     private String nom;
-    @Column(name = "description")
-    private String description;
-    @Column(name = "quantite", nullable = false)
-    private int quantite;
+
+    private String categorie;
+
+    private String reference;
+
+    private String marque;
+
+    @Column(name = "type_specificite")
+    private String typeSpecificite;
+
     @Column(name = "prix_unitaire", nullable = false)
     private double prixUnitaire;
-    @Column(name = "seuil_min", nullable = false)
-    private int seuilMin;
-    @Column(name = "date_derniere_vente")
-    private LocalDate dateDerniereVente;
-    @Column(name = "compatible_avec")
-    private String compatibleAvec;
 
+    @Column(nullable = false)
+    private int quantite;
+
+    private String emplacement;
+
+    @Column(length = 1000) // Augmenter la taille pour la description
+    private String description;
+
+    @Column(name = "seuil_critique")
+    private Integer seuilCritique;
+
+    @Column(name = "date_derniere_activite")
+    private LocalDate dateDerniereActivite;
+
+    // Constructeurs
     public Piece() {}
 
-    public Piece(int id, String nom, String description, int quantite, double prixUnitaire, int seuilMin, LocalDate dateDerniereVente, String compatibleAvec) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.quantite = quantite;
-        this.prixUnitaire = prixUnitaire;
-        this.seuilMin = seuilMin;
-        this.dateDerniereVente = dateDerniereVente;
-        this.compatibleAvec = compatibleAvec;
+    /**
+     * Cette méthode est automatiquement appelée par Hibernate avant chaque création (persist)
+     * ou mise à jour (update) de l'entité en base de données.
+     * Elle garantit que la date de dernière activité est toujours à jour.
+     */
+    @PrePersist
+    @PreUpdate
+    protected void onUpdate() {
+        dateDerniereActivite = LocalDate.now();
     }
 
-    // Getters et setters
+    // Getters et Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public int getQuantite() { return quantite; }
-    public void setQuantite(int quantite) { this.quantite = quantite; }
+    public String getCategorie() { return categorie; }
+    public void setCategorie(String categorie) { this.categorie = categorie; }
+    public String getReference() { return reference; }
+    public void setReference(String reference) { this.reference = reference; }
+    public String getMarque() { return marque; }
+    public void setMarque(String marque) { this.marque = marque; }
+    public String getTypeSpecificite() { return typeSpecificite; }
+    public void setTypeSpecificite(String typeSpecificite) { this.typeSpecificite = typeSpecificite; }
     public double getPrixUnitaire() { return prixUnitaire; }
     public void setPrixUnitaire(double prixUnitaire) { this.prixUnitaire = prixUnitaire; }
-    public int getSeuilMin() { return seuilMin; }
-    public void setSeuilMin(int seuilMin) { this.seuilMin = seuilMin; }
-    public LocalDate getDateDerniereVente() { return dateDerniereVente; }
-    public void setDateDerniereVente(LocalDate dateDerniereVente) { this.dateDerniereVente = dateDerniereVente; }
-    public String getCompatibleAvec() { return compatibleAvec; }
-    public void setCompatibleAvec(String compatibleAvec) { this.compatibleAvec = compatibleAvec; }
-} 
+    public int getQuantite() { return quantite; }
+    public void setQuantite(int quantite) { this.quantite = quantite; }
+    public String getEmplacement() { return emplacement; }
+    public void setEmplacement(String emplacement) { this.emplacement = emplacement; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public Integer getSeuilCritique() { return seuilCritique; }
+    public void setSeuilCritique(Integer seuilCritique) { this.seuilCritique = seuilCritique; }
+    public LocalDate getDateDerniereActivite() { return dateDerniereActivite; }
+    public void setDateDerniereActivite(LocalDate dateDerniereActivite) { this.dateDerniereActivite = dateDerniereActivite; }
+}
+ 
