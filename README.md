@@ -6,7 +6,18 @@ Cette application est un outil de gestion de stock de pièces détachées automo
 
 L'application se connecte à une base de données MySQL et utilise l'ORM Hibernate pour la persistance des données, ce qui automatise la création et la mise à jour des tables.
 
-## 2. Fonctionnalités Clés
+## 2. Fonctionnalités
+
+### Gestion des Ventes
+
+L'application inclut un module de vente complet pour simuler une caisse enregistreuse de quincaillerie.
+
+- **Interface de Vente :** Une vue dédiée permet de sélectionner des produits dans une liste filtrable, de spécifier une quantité et de les ajouter à un panier.
+- **Panier Dynamique :** Le panier se met à jour en temps réel, affichant les produits, les quantités et le total de la vente.
+- **Validation et Mise à Jour du Stock :** Lors de la validation d'une vente, le stock des produits est automatiquement décrémenté. Le système empêche la vente si le stock est insuffisant.
+- **Intégration au Dashboard :** Le tableau de bord principal reflète immédiatement les changements de stock après une vente, mettant à jour les alertes de seuil critique et les quantités disponibles.
+
+### Fonctionnalités Clés
 
 - **Formulaire d'Ajout de Pièce** : Interface claire pour ajouter de nouvelles pièces avec des informations détaillées (nom, catégorie, référence, marque, prix, quantité, seuil critique, etc.).
 - **Tableau de Bord Intelligent** : Vue centralisée de toutes les pièces en stock.
@@ -15,6 +26,11 @@ L'application se connecte à une base de données MySQL et utilise l'ORM Hiberna
     - Les pièces **obsolètes** (sans activité depuis plus de 6 mois) sont surlignées en **gris**.
 - **Suggestions de Commande** : Pour les pièces en stock bas, l'application calcule et suggère automatiquement une quantité à recommander pour atteindre un stock cible.
 - **Persistance Automatique** : Grâce à Hibernate, toutes les données sont sauvegardées dans une base de données MySQL, et la structure de la base est gérée automatiquement.
+- **Gestion des Images :**
+    - **Ajout d'Images :** Il est désormais possible d'associer une image à chaque pièce via le formulaire d'ajout ou de modification. Un bouton "Choisir une image" ouvre un explorateur de fichiers pour une sélection facile.
+    - **Aperçu Instantané :** L'image sélectionnée est immédiatement affichée dans un aperçu, permettant de vérifier le visuel avant de sauvegarder.
+    - **Sauvegarde Automatisée :** Les images sont copiées et stockées dans un dossier dédié du projet (`src/main/resources/images/pieces`), garantissant leur persistance avec le reste de l'application.
+    - **Affichage dans le Tableau de Bord :** Le tableau de bord principal inclut une nouvelle colonne affichant une miniature de l'image de chaque pièce, pour une identification visuelle rapide.
 
 ## 3. Architecture du Projet
 

@@ -15,6 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -31,6 +33,8 @@ import java.util.Optional;
 public class DashboardController {
 
     @FXML private TableView<Piece> pieceTableView;
+    @FXML private ImageView pieceImageView;
+    @FXML private Label pieceNameLabel;
     @FXML private TableColumn<Piece, String> nomColumn;
     @FXML private TableColumn<Piece, String> categorieColumn;
     @FXML private TableColumn<Piece, String> referenceColumn;
@@ -61,6 +65,7 @@ public class DashboardController {
         setupTableRowStyling();
         setupSearchFilter();
         setupButtonStateListeners();
+        setupSelectionListener(); // Ajout de l'écouteur de sélection
         loadData();
     }
 
@@ -222,6 +227,63 @@ public class DashboardController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Ajoute un écouteur sur le modèle de sélection du TableView.
+     * Met à jour le panneau de détails lorsqu'une nouvelle pièce est sélectionnée.
+     */
+    private void setupSelectionListener() {
+        pieceTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                updatePieceDetails(newSelection);
+            } else {
+                clearPieceDetails();
+            }
+        });
+    }
+
+    /**
+     * Met à jour le panneau de détails avec les informations de la pièce sélectionnée.
+     *
+     * @param piece La pièce sélectionnée.
+     */
+    private void updatePieceDetails(Piece piece) {
+        pieceNameLabel.setText(piece.getNom());
+        String imagePath = piece.getImagePath();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            try {
+                Image image = new Image(getClass().getResourceAsStream("/" + imagePath));
+                pieceImageView.setImage(image);
+            } catch (Exception e) {
+                // Si l'image n'est pas trouvée, on affiche une image par défaut ou on vide l'aperçu
+                pieceImageView.setImage(null);
+                System.err.println("Impossible de charger l'image : " + imagePath);
+            }
+        } else {
+            // Pas d'image pour cette pièce
+            pieceImageView.setImage(null);
+        }
+    }
+
+    /**
+     * Réinitialise le panneau de détails lorsqu'aucune pièce n'est sélectionnée.
+     */
+    private void clearPieceDetails() {
+        pieceNameLabel.setText("Sélectionnez une pièce");
+        pieceImageView.setImage(null);
+    }
+
+    /**
+     * Gère l'événement de clic sur le bouton "Ajouter une pièce".
+     * Ouvre le formulaire d'ajout dans une nouvelle fenêtre modale.
+     * Après la fermeture de la fenêtre, les données du tableau sont rechargées pour afficher la nouvelle pièce.
+     */
+    @FXML
+    private void handleNouvelleVente() throws IOException {
+        Stage stage = (Stage) pieceTableView.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/view/vente.fxml"));
+        stage.setScene(new Scene(root));
     }
 
     /**

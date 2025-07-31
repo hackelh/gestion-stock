@@ -1,16 +1,142 @@
+/* ===================================================================
+   Styles globaux
+   =================================================================== */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #F4F7FC;
+}
+
+/* ===================================================================
+   Titres
+   =================================================================== */
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2A3A4E;
+    -fx-padding: 10px 0 20px 0;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4A5C75;
+    -fx-padding-bottom: 10px;
+}
+
+/* ===================================================================
+   Boutons
+   =================================================================== */
+.button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-border-color: #DDE1E6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #C8CED3;
+}
+
+.button-primary {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-border-color: #28a745;
+}
+
+.button-primary:hover {
+    -fx-background-color: #218838;
+    -fx-border-color: #1e7e34;
+}
+
+.button-secondary {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-border-color: #6c757d;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #5a6268;
+    -fx-border-color: #545b62;
+}
+
+/* ===================================================================
+   Champs de saisie
+   =================================================================== */
+.text-field, .spinner {
+    -fx-background-color: white;
+    -fx-border-color: #DDE1E6;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 10px;
+}
+
+.text-field:focused {
+    -fx-border-color: #4D90FE;
+    -fx-effect: dropshadow(three-pass-box, rgba(77,144,254,0.6), 5, 0, 0, 0);
+}
+
+/* ===================================================================
+   Conteneurs
+   =================================================================== */
+.content-box {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+}
+
+/* ===================================================================
+   Tableaux
+   =================================================================== */
+.table-view {
+    -fx-border-color: #DDE1E6;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F1F3F5;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
 .low-stock-row {
-    -fx-background-color: #FFEBEE; /* Rouge très clair */
+    -fx-background-color: #FFEBEE;
 }
 
 .low-stock-row:selected {
-    -fx-background-color: #E57373; /* Rouge un peu plus foncé pour la sélection */
+    -fx-background-color: #E57373;
 }
 
 .obsolete-row {
-    -fx-background-color: #F5F5F5; /* Gris clair */
-    -fx-text-fill: #9E9E9E; /* Texte gris */
+    -fx-background-color: #F5F5F5;
+    -fx-text-fill: #9E9E9E;
 }
 
 .obsolete-row:selected {
-    -fx-background-color: #BDBDBD; /* Gris plus foncé pour la sélection */
+    -fx-background-color: #BDBDBD;
+}
+
+/* ===================================================================
+   Total Vente
+   =================================================================== */
+.total-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2A3A4E;
+    -fx-padding: 10px 0;
 }

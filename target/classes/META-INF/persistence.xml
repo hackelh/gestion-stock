@@ -4,7 +4,9 @@
 
     <persistence-unit name="gestionStockPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.example.model.Piece</class> 
+        <class>com.example.model.Piece</class>
+        <class>com.example.model.Vente</class>
+        <class>com.example.model.LigneVente</class>
 
         <properties>
             <!-- Configuration de la connexion à la base de données MySQL -->

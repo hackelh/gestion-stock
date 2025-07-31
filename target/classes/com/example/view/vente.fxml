@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="root" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controller.VenteController">
+    <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+        
+        <!-- En-tête -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Nouvelle Vente" styleClass="title-label"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="retourButton" text="Retour au Dashboard" onAction="#retourDashboard"/>
+        </HBox>
+
+        <!-- Contenu principal -->
+        <GridPane hgap="20" vgap="10" styleClass="content-box">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            
+            <children>
+                <!-- Section de gauche : Sélection des produits -->
+                <VBox spacing="15" GridPane.columnIndex="0">
+                    <Label text="Sélectionner des Produits" styleClass="section-title"/>
+                    <TextField fx:id="filtreProduitField" promptText="Filtrer par nom, référence..."/>
+                    <TableView fx:id="produitsTableView" prefHeight="400.0" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="nomProduitColumn" prefWidth="150.0" text="Nom"/>
+                            <TableColumn fx:id="refProduitColumn" prefWidth="100.0" text="Référence"/>
+                            <TableColumn fx:id="prixProduitColumn" prefWidth="75.0" text="Prix"/>
+                            <TableColumn fx:id="stockProduitColumn" prefWidth="75.0" text="Stock"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Quantité:"/>
+                        <Spinner fx:id="quantiteSpinner" initialValue="1" min="1" max="100" prefWidth="80"/>
+                        <Button fx:id="ajouterButton" text="Ajouter au Panier" onAction="#ajouterAuPanier"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Section de droite : Panier -->
+                <VBox spacing="15" GridPane.columnIndex="1">
+                    <Label text="Panier Actuel" styleClass="section-title"/>
+                    <TableView fx:id="panierTableView" prefHeight="400.0" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="nomPanierColumn" prefWidth="150.0" text="Produit"/>
+                            <TableColumn fx:id="quantitePanierColumn" prefWidth="75.0" text="Quantité"/>
+                            <TableColumn fx:id="prixTotalPanierColumn" prefWidth="100.0" text="Prix Total"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="Le panier est vide."/>
+                        </placeholder>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button fx:id="retirerButton" text="Retirer du Panier" onAction="#retirerDuPanier"/>
+                    </HBox>
+                </VBox>
+            </children>
+        </GridPane>
+
+        <!-- Pied de page -->
+        <HBox alignment="CENTER_RIGHT" spacing="20" style="-fx-padding: 10 0 0 0;">
+            <Label text="Total de la Vente:" styleClass="total-label"/>
+            <Label fx:id="totalVenteLabel" text="0.00 €" styleClass="total-label"/>
+            <Button fx:id="validerVenteButton" text="Valider la Vente" onAction="#validerVente" styleClass="button-primary"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

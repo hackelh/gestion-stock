@@ -2,6 +2,9 @@ package com.example.model;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,7 +51,10 @@ public class Piece {
     private String description;
 
     @Column(name = "seuil_critique")
-    private Integer seuilCritique;
+    private int seuilCritique;
+
+    @Column(name = "image_path")
+    private String imagePath;
 
     @Column(name = "date_derniere_activite")
     private LocalDate dateDerniereActivite;
@@ -71,6 +77,7 @@ public class Piece {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNom() { return nom; }
+    public StringProperty getNomProperty() { return new SimpleStringProperty(nom); }
     public void setNom(String nom) { this.nom = nom; }
     public String getCategorie() { return categorie; }
     public void setCategorie(String categorie) { this.categorie = categorie; }
@@ -92,5 +99,6 @@ public class Piece {
     public void setSeuilCritique(Integer seuilCritique) { this.seuilCritique = seuilCritique; }
     public LocalDate getDateDerniereActivite() { return dateDerniereActivite; }
     public void setDateDerniereActivite(LocalDate dateDerniereActivite) { this.dateDerniereActivite = dateDerniereActivite; }
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }
- 
