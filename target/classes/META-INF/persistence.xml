@@ -16,7 +16,7 @@
             <property name="jakarta.persistence.jdbc.password" value=""/>
 
             <!-- Dialecte Hibernate pour MySQL -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+           
 
             <!-- Affiche les requêtes SQL générées par Hibernate (utile pour le débogage) -->
             <property name="hibernate.show_sql" value="true"/>

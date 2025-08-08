@@ -1,6 +1,5 @@
 package com.example;
 
-
 import com.example.model.JPAUtil;
 
 import javafx.application.Application;
@@ -14,11 +13,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/view/DashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/view/LoginView.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Tableau de Bord - Gestion de Stock Auto");
+            primaryStage.setTitle("Connexion - Gestion de Stock Auto");
             primaryStage.setScene(scene);
             primaryStage.show();
 
